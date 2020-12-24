@@ -29,7 +29,9 @@ class Publication extends Model
      * @var array
      */
     protected $fillable = ['title', 'description', 'file', 'main', 'download', 'created_at', 'updated_at'];
-
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

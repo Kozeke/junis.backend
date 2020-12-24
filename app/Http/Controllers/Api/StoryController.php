@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Story;
 use App\Publication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class PublicationController extends Controller
+class StoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,18 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        $publications = Publication::with('publicationImages')->get();
-        return response()->json($publications);
+        $stories = Story::all();
+        return response()->json($stories);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
     /**
@@ -30,10 +41,10 @@ class PublicationController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),
-        ['title'=>"required","description"=>"required","file"=>"required|file|max:4096","images"=>"required","images.*"=>"image|max:4096"]
+            ['title'=>"required","content"=>"required", 'author' => 'required',"image"=>"required|image|max:4096"]
         );
         if(!$validator->fails()){
-            Publication::saveData($request);
+            Story::saveData($request);
         }
         else{
             return response()->json($validator->errors());
@@ -48,6 +59,18 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
+        $data = Story::find($id);
+        return response()->json($data);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
         //
     }
 
@@ -60,7 +83,17 @@ class PublicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $request->all();
+//        $validator = Validator::make($request->all(),
+//            ['title'=>"required","content"=>"required", 'author' => 'required',"image"=>"sometimes|image|max:4096"]
+//        );
+//        $str = Story::find($id);
+//        if(!$validator->fails()){
+//            Story::updateData($request, $str);
+//        }
+//        else{
+//            return response()->json($validator->errors());
+//        }
     }
 
     /**
@@ -71,11 +104,8 @@ class PublicationController extends Controller
      */
     public function destroy($id)
     {
-        $pub = Publication::find($id);
-        Storage::delete($pub->file);
-        foreach ($pub->publicationImages as $publicationImage) {
-            Storage::delete($publicationImage->url);
-        }
-        $pub->delete();
+        $str = Story::find($id);
+        Storage::delete($str->image);
+        $str->delete();
     }
 }
