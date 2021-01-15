@@ -18,6 +18,7 @@ Route::post('/logout', ['App\Http\Controllers\Api\Auth\LoginController', 'logout
         'stories' => StoryController::class,
         'galleries'=>GalleryController::class,
     ]);
-
+Route::get('/findPublication', ['App\Http\Controllers\Api\PublicationController', 'search']);
+Route::get('/findStories', ['App\Http\Controllers\Api\StoryController', 'search']);
 Route::get("/frontend-gallery",[FrontendController::class,"gallery"]);
 Route::get("/frontend-story",[FrontendController::class,"stories"]);

@@ -100,4 +100,17 @@ class StoryController extends Controller
         Storage::delete($str->image);
         $str->delete();
     }
+
+    public function search(Request $request){
+
+        if ($search = $request->get('q')) {
+            $categories = Story::where(function($query) use ($search){
+                $query->where('title','LIKE',"%$search%");
+            })->paginate(10);
+        }else{
+            $categories = Story::latest()->paginate(10);
+        }
+
+        return $categories;
+    }
 }
