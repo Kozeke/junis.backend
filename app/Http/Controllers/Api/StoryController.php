@@ -27,10 +27,6 @@ class StoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -69,10 +65,7 @@ class StoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -83,17 +76,16 @@ class StoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $request->all();
-//        $validator = Validator::make($request->all(),
-//            ['title'=>"required","content"=>"required", 'author' => 'required',"image"=>"sometimes|image|max:4096"]
-//        );
-//        $str = Story::find($id);
-//        if(!$validator->fails()){
-//            Story::updateData($request, $str);
-//        }
-//        else{
-//            return response()->json($validator->errors());
-//        }
+        $validator = Validator::make($request->all(),
+            ['title'=>"required","content"=>"required", 'author' => 'required',"image"=>"sometimes|image|max:4096"]
+        );
+        $str = Story::find($id);
+        if(!$validator->fails()){
+            Story::updateData($request, $str);
+        }
+        else{
+            return response()->json($validator->errors());
+        }
     }
 
     /**

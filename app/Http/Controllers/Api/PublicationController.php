@@ -48,7 +48,9 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
-        //
+        $publication = Publication::with("publicationImages")->find($id);
+        return  response()->json($publication);
+
     }
 
     /**
@@ -60,7 +62,22 @@ class PublicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $publication = Publication::find($id);
+        if($publication){
+            $validator = Validator::make($request->all(),
+                ['title'=>"required","description"=>"required","file"=>"sometimes|file|max:4096",
+                    ]
+            );
+            if(!$validator->fails()){
+                Publication::updateData($request,$publication);
+            }
+            else{
+                return response()->json($validator->errors());
+            }
+        }
+
+
+
     }
 
     /**

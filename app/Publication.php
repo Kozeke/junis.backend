@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\File;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @property integer $id
@@ -52,5 +53,17 @@ class Publication extends Model
         else{
 
         }
+    }
+
+
+    public static function updateData($request, $model){
+        $input = $request->all();
+        if($request->hasFile("file")){
+            Storage::delete($model->file);
+            $input["file"] = File::saveFile($request,"file","/uploads/publications/",$request->title);
+        }
+        $input["main"] = $request->boolean("main");
+        $model->update($input);
+        $model->save();
     }
 }
