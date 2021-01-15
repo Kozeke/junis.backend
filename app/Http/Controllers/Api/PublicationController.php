@@ -30,7 +30,7 @@ class PublicationController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),
-        ['title'=>"required","description"=>"required","file"=>"required|file|max:4096","images"=>"required","images.*"=>"image|max:4096"]
+        ['title'=>"required","description"=>"required","file"=>"required|file|max:4096","image"=>"required|image|max:4096"]
         );
         if(!$validator->fails()){
             Publication::saveData($request);
@@ -65,7 +65,7 @@ class PublicationController extends Controller
         $publication = Publication::find($id);
         if($publication){
             $validator = Validator::make($request->all(),
-                ['title'=>"required","description"=>"required","file"=>"sometimes|file|max:4096",
+                ['title'=>"required","description"=>"required","file"=>"sometimes|file|max:4096", 'image' => 'sometimes|image|max:4096'
                     ]
             );
             if(!$validator->fails()){
@@ -94,5 +94,29 @@ class PublicationController extends Controller
             Storage::delete($publicationImage->url);
         }
         $pub->delete();
+    }
+
+    public function search (Request $request){
+        $search = $request->get('q');
+        if ($search) {
+            $publications = Publication::with('publicationImages')->where(function($query) use ($search){
+                $query->where('title','LIKE',"%$search%");
+            })->paginate(10);
+        }else{
+            $publications = Publication::with('publicationImages')->latest()->paginate(10);
+        }
+        return $publications;
+    }
+
+    public function searchByTime (Request $request){
+        $search = $request->get('q');
+        if ($search) {
+            $publications = Publication::with('publicationImages')->where(function($query) use ($search){
+                $query->where('created_at','LIKE',"%$search%");
+            })->paginate(10);
+        }else{
+            $publications = Publication::with('publicationImages')->latest()->paginate(10);
+        }
+        return $publications;
     }
 }

@@ -104,13 +104,25 @@ class StoryController extends Controller
     public function search(Request $request){
 
         if ($search = $request->get('q')) {
-            $categories = Story::where(function($query) use ($search){
+            $stories = Story::where(function($query) use ($search){
                 $query->where('title','LIKE',"%$search%");
             })->paginate(10);
         }else{
-            $categories = Story::latest()->paginate(10);
+            $stories = Story::latest()->paginate(10);
         }
 
-        return $categories;
+        return $stories;
+    }
+
+    public function searchByTime (Request $request){
+        $search = $request->get('q');
+        if ($search) {
+            $stories = Story::where(function($query) use ($search){
+                $query->where('created_at','LIKE',"%$search%");
+            })->paginate(10);
+        }else{
+            $stories = Story::latest()->paginate(10);
+        }
+        return $stories;
     }
 }

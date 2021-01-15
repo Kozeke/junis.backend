@@ -49,7 +49,7 @@ class Publication extends Model
         $input["file"] = File::saveFile($request,"file","/uploads/publications/",$request->title);
         $model->fill($input);
         if($model->save()){
-            PublicationImage::saveImage($model->id,$request->images);
+            PublicationImage::saveImage($model->id,$request->file('image'));
         }
         else{
 
@@ -62,6 +62,13 @@ class Publication extends Model
         if($request->hasFile("file")){
             Storage::delete($model->file);
             $input["file"] = File::saveFile($request,"file","/uploads/publications/",$request->title);
+        }
+        if ($request->hasFile('image')) {
+            foreach ($model->publicationImages as $publicationImage) {
+                Storage::delete($publicationImage->url);
+                $publicationImage->delete();
+            }
+            PublicationImage::saveImage($model->id,$request->file('image'));
         }
         $input["main"] = $request->boolean("main");
         $model->update($input);

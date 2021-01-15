@@ -36,13 +36,10 @@ class PublicationImage extends Model
     }
 
 
-    public static function saveImage($id,$files){
-        foreach ($files as $file){
+    public static function saveImage($id,$file){
             $model = new self;
             $model->publication_id = $id;
             $model->url = File::saveImage($file,"/uploads/publications/");
             $model->save();
-        }
-
     }
 }
