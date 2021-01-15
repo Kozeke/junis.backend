@@ -23,3 +23,9 @@ Route::get('/findStories', ['App\Http\Controllers\Api\StoryController', 'search'
 Route::get('/findStoriesByTime', ['App\Http\Controllers\Api\StoryController', 'searchByTime']);
 Route::get("/frontend-gallery",[FrontendController::class,"gallery"]);
 Route::get("/frontend-story",[FrontendController::class,"stories"]);
+//All Story
+Route::get("/frontend-gallery",[FrontendController::class,"gallery"]);
+Route::get("/frontend-story",[FrontendController::class,"stories"]);
+Route::get("/frontend-publications",[FrontendController::class,"allPublications"]);
+Route::get("/show-publication/{id}",[FrontendController::class,"showPublication"]);
+Route::get("/download-publication/{id}",[FrontendController::class,"downloadPublication"]);
