@@ -45,6 +45,7 @@ class Publication extends Model
     public static function saveData($request){
         $model = new self();
         $input = $request->all();
+        $input['main'] = $request['is_main'] == 'true' ? 1 : 0;
         $input["file"] = File::saveFile($request,"file","/uploads/publications/",$request->title);
         $model->fill($input);
         if($model->save()){
