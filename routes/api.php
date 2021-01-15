@@ -9,7 +9,6 @@ use App\Http\Controllers\Api\GalleryController;
 
 
 
-
 Route::post('/login', ['App\Http\Controllers\Api\Auth\LoginController', 'login']);
 Route::get('/user', ['App\Http\Controllers\Api\Auth\LoginController', 'user']);
 Route::post('/logout', ['App\Http\Controllers\Api\Auth\LoginController', 'logout']);
