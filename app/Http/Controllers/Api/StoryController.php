@@ -18,7 +18,7 @@ class StoryController extends Controller
      */
     public function index()
     {
-        $stories = Story::all();
+        $stories = Story::paginate(10);
         return response()->json($stories);
     }
 

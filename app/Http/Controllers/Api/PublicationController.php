@@ -17,7 +17,7 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        $publications = Publication::with('publicationImages')->get();
+        $publications = Publication::with('publicationImages')->paginate(10);
         return response()->json($publications);
     }
 

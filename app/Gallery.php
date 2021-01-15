@@ -21,7 +21,9 @@ class Gallery extends Model
      * @var string
      */
     protected $keyType = 'integer';
-
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d',
+    ];
     /**
      * @var array
      */
