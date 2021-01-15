@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Gallery;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class GalleryController extends Controller
@@ -48,7 +49,8 @@ class GalleryController extends Controller
      */
     public function show($id)
     {
-        //
+        $gallery = Gallery::find($id);
+        return response()->json($gallery);
     }
 
     /**
@@ -60,7 +62,17 @@ class GalleryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $gallery = Gallery::find($id);
+        if($gallery){
+            $validator = Validator::make($request->all(),["title"=>"required|max:255","image"=>"nullable|sometimes|image|max:4096"]);
+            if(!$validator->fails()){
+                Gallery::updateData($request,$gallery);
+            }
+            else{
+                return response()->json(["status"=>false,"errors"=>$validator->errors()]);
+            }
+
+        }
     }
 
     /**
@@ -71,6 +83,9 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($gallery = Gallery::find($id)){
+            Storage::delete($gallery->image);
+            $gallery->delete();
+        }
     }
 }
