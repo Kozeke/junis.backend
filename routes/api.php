@@ -29,3 +29,5 @@ Route::get("/frontend-story",[FrontendController::class,"stories"]);
 Route::get("/frontend-publications",[FrontendController::class,"allPublications"]);
 Route::get("/show-publication/{id}",[FrontendController::class,"showPublication"]);
 Route::get("/download-publication/{id}",[FrontendController::class,"downloadPublication"]);
+Route::get("/all-stories",[FrontendController::class,"allStories"]);
+Route::get("/show-story/{id}",[FrontendController::class,"showStory"]);
