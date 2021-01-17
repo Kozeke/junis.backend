@@ -36,7 +36,7 @@ class PublicationController extends Controller
             Publication::saveData($request);
         }
         else{
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(),422);
         }
     }
 
@@ -72,7 +72,7 @@ class PublicationController extends Controller
                 Publication::updateData($request,$publication);
             }
             else{
-                return response()->json($validator->errors());
+                return response()->json($validator->errors(), 422);
             }
         }
 

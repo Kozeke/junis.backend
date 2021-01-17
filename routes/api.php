@@ -12,11 +12,13 @@ use App\Http\Controllers\Api\GalleryController;
 Route::post('/login', ['App\Http\Controllers\Api\Auth\LoginController', 'login']);
 Route::get('/user', ['App\Http\Controllers\Api\Auth\LoginController', 'user']);
 Route::post('/logout', ['App\Http\Controllers\Api\Auth\LoginController', 'logout']);
+Route::group(['middleware' => 'auth:api'], function () {
     Route::resources([
         'publications' => PublicationController::class,
         'stories' => StoryController::class,
         'galleries'=>GalleryController::class,
     ]);
+});
 Route::get('/findPublication', ['App\Http\Controllers\Api\PublicationController', 'search']);
 Route::get('/findPublicationByTime', ['App\Http\Controllers\Api\PublicationController', 'searchByTime']);
 Route::get('/findStories', ['App\Http\Controllers\Api\StoryController', 'search']);

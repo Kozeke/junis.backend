@@ -43,7 +43,7 @@ class StoryController extends Controller
             Story::saveData($request);
         }
         else{
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 422);
         }
     }
 
@@ -84,7 +84,7 @@ class StoryController extends Controller
             Story::updateData($request, $str);
         }
         else{
-            return response()->json($validator->errors());
+            return response()->json($validator->errors(), 422);
         }
     }
 
