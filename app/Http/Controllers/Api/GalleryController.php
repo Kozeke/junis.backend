@@ -34,7 +34,7 @@ class GalleryController extends Controller
             Gallery::saveData($request);
         }
         else{
-            return response()->json(["status"=>false,"errors"=>$validator->fails()]);
+            return response()->json(["status"=>false,"errors"=>$validator->fails()], 422);
         }
 
 
@@ -69,7 +69,7 @@ class GalleryController extends Controller
                 Gallery::updateData($request,$gallery);
             }
             else{
-                return response()->json(["status"=>false,"errors"=>$validator->errors()]);
+                return response()->json(["status"=>false,"errors"=>$validator->errors()],422);
             }
 
         }
